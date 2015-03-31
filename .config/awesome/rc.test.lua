@@ -3,14 +3,10 @@ local awful = require('awful')
 awful.rules = require('awful.rules')
 require('awful.autofocus')
 
-local wibox = require('wibox')
 local beautiful = require('beautiful')
-local naughty = require('naughty')
-local menubar = require('menubar')
 local tyrannical = require('tyrannical')
-local cyclefocus = require('cyclefocus')
 local lain = require('lain')
-local config = require('config')
+local config = require('awesome_config')
 
 local cfg = {
     modkey = 'Mod4',

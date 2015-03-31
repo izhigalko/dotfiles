@@ -2,7 +2,7 @@ local wibox = require('wibox')
 local awful = require('awful')
 local beautiful = require("beautiful")
 local lain = require('lain')
-local widgets = require('config.widgets')
+local widgets = require('awesome_config.widget')
 
 local panels = {}
 
@@ -42,7 +42,7 @@ function panels.init(cfg)
 
         promptbox[s] = awful.widget.prompt()
         layoutbox[s] = awful.widget.layoutbox(s)
-        taglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist.buttons, nil, widgets.taglist.update_function)
+        taglist[s] = awful.widgets.taglist(s, awful.widget.taglist.filter.all, taglist.buttons, nil, widgets.taglist.update_function)
         tasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist.buttons)
 
         _panels[s].top = awful.wibox({ position = 'top', screen = s, height=32 })
