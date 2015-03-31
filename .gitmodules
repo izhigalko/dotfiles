@@ -1,0 +1,9 @@
+[submodule ".config/awesome/lain"]
+	path = .config/awesome/lain
+	url = git://github.com/copycat-killer/lain
+[submodule ".config/awesome/tyrannical"]
+	path = .config/awesome/tyrannical
+	url = git://github.com/Elv13/tyrannical
+[submodule ".config/awesome/cyclefocus"]
+	path = .config/awesome/cyclefocus
+	url = git://github.com/blueyed/awesome-cyclefocus
