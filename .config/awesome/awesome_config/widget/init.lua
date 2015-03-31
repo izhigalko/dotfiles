@@ -1,5 +1,11 @@
-local widget = {}
-
-widget.taglist = require("awesome_config.widget.taglist")
-
-return widget
+return setmetatable(
+	{
+        _NAME = "awesome_config.widget"
+    },
+	{
+        __index = function(table, key)
+		    local module = rawget(table, key)
+		    return module or require(table._NAME .. '.' .. key)
+        end
+    }
+)

@@ -1,95 +1,95 @@
-local gears = require('gears')
-local awful = require('awful')
-awful.rules = require('awful.rules')
-require('awful.autofocus')
+local gears = require("gears")
+local awful = require("awful")
+awful.rules = require("awful.rules")
+require("awful.autofocus")
 
-local beautiful = require('beautiful')
-local tyrannical = require('tyrannical')
-local lain = require('lain')
-local config = require('awesome_config')
+local beautiful = require("beautiful")
+local tyrannical = require("tyrannical")
+local lain = require("lain")
+local config = require("awesome_config")
 
 local cfg = {
-    modkey = 'Mod4',
-    terminal = 'urxvt',
-    keyboard_layouts = {{'us', '', 'EN'}, {'ru,us', '', 'RU'}},
-    home_dir = os.getenv('HOME')
+    modkey = "Mod4",
+    terminal = "urxvt",
+    keyboard_layouts = {{"us", "", "EN"}, {"ru,us", "", "RU"}},
+    home_dir = os.getenv("HOME")
 }
 
 -- Tags settings
 
 tyrannical.tags = {
     {
-        name = 'Term',
+        name = "Term",
         init = true,
         exclusive = true,
         selected = true,
         force_screen = true,
         screen = 1,
         layout = lain.layout.uselessfair,
-        class = {'urxvt', 'URxvt'}
+        class = {"urxvt", "URxvt"}
     },
     {
-        name = 'IM0',
+        name = "IM0",
         init = true,
         exclusive = true,
         force_screen = true,
         screen = 1,
         layout = awful.layout.suit.tile.bottom,
-        class = {'viber', 'Viber', 'skype', 'Skype', 'ViberPC'}
+        class = {"viber", "Viber", "skype", "Skype", "ViberPC"}
     },
     {
-        name = 'IM1',
+        name = "IM1",
         init = true,
         exclusive = true,
         force_screen = true,
         screen = 1,
         layout = awful.layout.suit.tile.bottom,
-        class = {'hexchat', 'HexChat', 'pidgin', 'Pidgin'}
+        class = {"hexchat", "HexChat", "pidgin", "Pidgin"}
     },
     {
-        name = 'Sys',
+        name = "Sys",
         init = true,
         locked = true,
         force_screen = true,
         layout = awful.layout.suit.max
     },
     {
-        name = 'Virt',
+        name = "Virt",
         init = true,
         exclusive = true,
         force_screen = true,
         screen = screen.count() > 1 and 2 or 1,
         layout = awful.layout.suit.max,
-        class = {'VirtualBox'}
+        class = {"VirtualBox"}
     },
     {
-        name = 'Dev0',
+        name = "Dev0",
         init = true,
         exclusive = true,
         force_screen = true,
         screen = screen.count() > 1 and 2 or 1,
         layout = awful.layout.suit.max,
-        class = {'jetbrains-pycharm'}
+        class = {"jetbrains-pycharm"}
     },
     {
-        name = 'Dev1',
+        name = "Dev1",
         init = true,
         force_screen = true,
         screen = screen.count() > 1 and 2 or 1,
         layout = awful.layout.suit.max
     },
     {
-        name = 'WWW',
+        name = "WWW",
         init = true,
         exclusive = true,
         selected = screen.count() > 1 and true or false,
         force_screen = true,
         screen = screen.count() > 1 and 2 or 1,
         layout = awful.layout.suit.max,
-        class = {'Chromium'}
+        class = {"Chromium"}
     },
     {
-        name = 'Fall',
+        name = "Fall",
         init = false,
         fallback = true,
         force_screen = true,
@@ -103,7 +103,7 @@ tyrannical.properties.size_hints_honor = { Rxvt = false }
 
 -- / Tags settings
 
-beautiful.init(cfg.home_dir .. '/.config/awesome/theme.test.lua')
+beautiful.init(cfg.home_dir .. "/.config/awesome/theme.test.lua")
 
 for s = 1, screen.count() do
     gears.wallpaper.maximized(beautiful.wallpaper, s, true)

@@ -1,8 +1,10 @@
+local awful = require("awful")
 local awful_common = require("awful.widget.common")
 local beautiful = require("beautiful")
+local wibox = require("wibox")
 local tag_widget = require("awesome_config.widget.tag")
 
-local taglist = {}
+local taglist = { mt = {} }
 
 function taglist.get_tag_style(tag)
 
@@ -41,6 +43,8 @@ function taglist.get_tag_style(tag)
     data.selected.state = tag.selected
     data.occupied.state = #tag_clients > 0 and not state.focused
 
+    -- TODO: rewrite tag widget style
+
     if data.selected.state then
 
         data.fg = data.focused.fg
@@ -58,37 +62,86 @@ function taglist.get_tag_style(tag)
 
     end
 
+    data.fg = '#FFFFFF'
+    data.bg = '#000000'
+
     return data
 end
 
-function taglist.update_function(widget, buttons, label, data, tags)
+function taglist.new(screen, filter, buttons)
 
-    widget:reset()
-    for i, tag in ipairs(tags) do
+    local layout = wibox.layout.fixed.horizontal()
+    local data = setmetatable({}, { __mode = 'k' })
 
-        local cache = data[tag]
-        local twidget
-
-        if cache then
-            twidget = cache
-        else
-            twidget = tag_widget(common.create_buttons(buttons, tag))
-            data[tag] = twidget
+    local tag_filter = function(screen, filter)
+        local tags = {}
+        for i, tag in ipairs(awful.tag.gettags(screen)) do
+            if not awful.tag.getproperty(tag, "hide") and filter(t) then
+                table.insert(tags, tag)
+            end
         end
-
-        local style = taglist.get_tag_style(tag)
-        twidget.set_style(style)
-
-        widget:add(twidget)
-
-        if style.separator and i < #tags then
-
-            widget:add(style.separator)
-
-        end
-
+        return tags
     end
 
+    local update = function (s)
+        if s == screen then
+            local tags = tag_filter(s, filter)
+
+            layout:reset()
+            for i, tag in ipairs(tags) do
+
+                local cache = data[tag]
+                local twidget
+
+                if cache then
+                    twidget = cache
+                else
+                    twidget = tag_widget(awful_common.create_buttons(buttons, tag))
+                    data[tag] = twidget
+                end
+
+                local style = taglist.get_tag_style(tag)
+                twidget:set_style(style)
+
+                layout:add(twidget)
+
+                if style.separator and i < #tags then
+                    layout:add(style.separator)
+                end
+            end
+        end
+    end
+    local uc = function (c) return update(c.screen) end
+    local ut = function (t) return update(awful.tag.getscreen(t)) end
+
+    local client_signals = {
+        "focus", "unfocus", "property::urgent", "tagged", "untagged", "unmanage"
+    }
+
+    local tags_signals = {
+        "property::selected", "property::icon", "property::hide", "property::name", "property::activated",
+        "property::screen", "property::index"
+    }
+
+    for i, signal in ipairs(client_signals) do
+        client.connect_signal(signal, uc)
+    end
+
+    for i, signal in ipairs(tags_signals) do
+        awful.tag.attached_connect_signal(screen, signal, ut)
+    end
+
+    client.connect_signal("property::screen", function(c)
+        update(screen)
+    end)
+
+    update(screen)
+
+    return layout
 end
 
-return taglist
+function taglist.mt:__call(...)
+    return taglist.new(...)
+end
+
+return setmetatable(taglist, taglist.mt)
