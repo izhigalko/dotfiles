@@ -1,3 +1,5 @@
+local gears = require("gears")
+
 local utils = { table = {}, cairo = {} }
 
 function utils.table.merge(t1, t2)
@@ -23,18 +25,7 @@ end
 -- Get x to draw text horizontal centered
 function utils.cairo.text_hcenter_coordinates(cr, text, width)
     local t_ext = cr:text_extents(text)
-    return width/2 - t_ext.width/2
-end
-
-function utils.cairo.draw_left_arrow(cr, width, height)
-    cr:move_to(0, 0)
-    cr:line_to(0, height)
-    cr:line_to(width - height/2, height)
-    cr:line_to(width, height/2)
-    cr:line_to(width - height/2, 0)
-    cr:line_to(0, 0)
-    cr:close_path()
-    cr:fill_preserve()
+    return (width - t_ext.width)/2
 end
 
 return utils

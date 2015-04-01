@@ -40,7 +40,7 @@ function panels.init(cfg)
         taglist[s] = widget.taglist(s, awful.widget.taglist.filter.all, taglist.buttons)
         tasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist.buttons)
 
-        _panels[s].top = awful.wibox({ position = "top", screen = s, height=32 })
+        _panels[s].top = awful.wibox({ position = "top", screen = s, height=24 })
         _panels[s].bottom = awful.wibox({ position = "bottom", screen = s, height=32 })
 
         local left_top_layout = wibox.layout.fixed.horizontal()

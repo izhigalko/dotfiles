@@ -1,9 +1,12 @@
 theme = {}
 
+-- File path
+theme.config_dir = os.getenv("HOME") .. "/.config/awesome"
+
 -- Base theme values
 theme.font          = "sans 11"
 
-theme.bg_normal     = "#222222"
+theme.bg_normal     = "#017783"--"#222222"
 theme.bg_focus      = "#535d6c"
 theme.bg_urgent     = "#ff0000"
 theme.bg_minimize   = "#444444"
@@ -18,5 +21,7 @@ theme.border_width  = 1
 theme.border_normal = "#000000"
 theme.border_focus  = "#535d6c"
 theme.border_marked = "#91231c"
+
+theme.wallpaper = theme.config_dir .. "/wallpapers/1.jpg"
 
 return theme

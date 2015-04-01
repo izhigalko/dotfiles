@@ -7,15 +7,17 @@ local tag_widget = require("awesome_config.widget.tag")
 
 local taglist = { mt = {} }
 
--- Get tag style from theme or default
-function taglist.get_tag_state(tag)
+-- Get tag state
+function taglist.get_tag_state(tag, index, screen_tags_count)
 
     local state = {
         focused = false,
         urgent = false,
         occupies = false,
         selected = false,
-        text = tag.name
+        text = tag.name,
+        is_first = index == 1,
+        is_last = index == screen_tags_count
     }
 
     local tag_clients = tag:clients()
@@ -34,6 +36,7 @@ end
 -- Custom taglist based on awful.widget.taglist
 function taglist.new(screen, filter, buttons)
 
+    local margin = wibox.layout.margin()
     local layout = wibox.layout.fixed.horizontal()
     local data = setmetatable({}, { __mode = 'k' })
 
@@ -54,7 +57,7 @@ function taglist.new(screen, filter, buttons)
             layout:reset()
             for i, tag in ipairs(tags) do
                 local cache, twidget, sep = data[tag], nil, nil
-                local state = taglist.get_tag_state(tag)
+                local state = taglist.get_tag_state(tag, i, #tags)
 
                 if cache then
                     twidget = cache
@@ -97,8 +100,13 @@ function taglist.new(screen, filter, buttons)
     awful.tag.attached_connect_signal(screen, "property::index", tag_updated)
 
     update(screen)
+    margin:set_widget(layout)
+    margin:set_top(1)
+    margin:set_bottom(1)
+    margin:set_left(3)
+    margin:set_right(3)
 
-    return layout
+    return margin
 end
 
 function taglist.mt:__call(...)

@@ -8,11 +8,11 @@ local utils = require("awesome_config.utils")
 local tag = {
     mt = {},
     default_style = {
-        width = 100,
-        font = { font = "Sans", size = 15, face = 0, slant = 0 },
-        fg_color = "#ffffff",
-        bg_color = "#000000",
-        border_color = "#111111"
+        width = 60,
+        font = { font = "Sans", size = 10, face = 0, slant = 0 },
+        color = "#FFFFFF",
+        background = "#332F2E",
+        text_x_gap = 10
     }
 }
 
@@ -25,19 +25,6 @@ function tag:set_style(style)
     self.style = style
 end
 
-function tag:draw_selected()
-
-end
-
-function tag:draw_focused()
-end
-
-function tag:draw_occupied()
-end
-
-function tag:draw_urgent()
-end
-
 function tag:fit(width, height)
     if self.style.width then
         return math.min(width, self.style.width), height
@@ -47,13 +34,85 @@ function tag:fit(width, height)
 end
 
 function tag:draw(wibox, cr, width, height)
-    cr:set_source(gears.color(self.style.bg_color))
-    utils.cairo.draw_left_arrow(cr, width, height)
-    cr:set_source(gears.color(self.style.fg_color))
+    local t_ext, text_x, text_y, x, y, w, h
+
+    -- Fill background
+    cr:save()
+    cr:set_source(gears.color(self.style.background))
+
+    -- Draw arrow background
+    cr:move_to(0, 0)
+
+    if self.state.is_first then
+        cr:line_to(height/2, height/2)
+    end
+
+    cr:line_to(0, height)
+
+    if self.state.is_last then
+        cr:line_to(width - height/2, height)
+        cr:line_to(width, height/2)
+        cr:line_to(width - height/2, 0)
+    else
+        cr:line_to(width, height)
+        cr:line_to(width, 0)
+    end
+
+    cr:line_to(0, 0)
+
+    cr:fill()
+    cr:restore()
+
+    -- Draw arrow borders
+    cr:save()
+    cr:set_source(gears.color(self.style.color))
+    cr.line_width = 0.5
+    cr:set_dash({ 0.1 }, 0.1, 0);
+
+    cr:move_to(width - height/2, height)
+    cr:line_to(width, height/2)
+    cr:line_to(width - height/2, 0)
+
+    cr:stroke()
+
+    if self.state.is_first then
+        cr:move_to(0, 0)
+        cr:line_to(height/2, height/2)
+        cr:line_to(0, height)
+    end
+
+    cr:stroke()
+    cr:restore()
+
+    -- Set text
+    cr:save()
+
+    cr:set_source(gears.color(self.style.color))
     utils.cairo.set_font(cr, self.style.font)
-    local x, y = utils.cairo.text_hcenter_coordinates(cr, self.state.text, width), (height*2.5)/4
-	cr:move_to(x, y)
+
+    -- if is first tag we need to change x coordinate
+    t_ext = cr:text_extents(self.state.text)
+    text_x, text_y = (width - height/2 - t_ext.width)/2, (height*2.5)/4
+    text_x = self.state.is_first and text_x + height/4 or text_x
+
+	cr:move_to(text_x, text_y)
 	cr:show_text(self.state.text)
+
+    cr:restore()
+
+    -- Draw selected mark
+    if self.state.selected then
+        cr:save()
+
+        x, y = text_x, height - (height - text_y)/2
+        cr:set_source(gears.color(self.style.color))
+        cr.line_width = 1
+        cr:move_to(x - 5, y)
+        cr:line_to(x + t_ext.x_advance + 5, y)
+        cr:stroke()
+
+        cr:restore()
+    end
 end
 
 local function new(state)
