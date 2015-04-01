@@ -51,6 +51,7 @@ tyrannical.tags = {
         init = true,
         locked = true,
         force_screen = true,
+        screen = 1,
         layout = awful.layout.suit.max
     },
     {

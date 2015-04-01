@@ -1,18 +1,28 @@
+local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
-local beautiful = require("beautiful")
-local naughty = require("naughty")
-local lgi = require("lgi")
-local Pango = lgi.Pango
-local PangoCairo = lgi.PangoCairo
+
+local utils = require("awesome_config.utils")
+
 
 local tag = {
     mt = {},
+    default_style = {
+        width = 100,
+        font = { font = "Sans", size = 15, face = 0, slant = 0 },
+        fg_color = "#ffffff",
+        bg_color = "#000000",
+        border_color = "#111111"
+    }
 }
+
+function tag:set_state(state)
+    self.state = state
+    self._emit_updated()
+end
 
 function tag:set_style(style)
     self.style = style
-    self._emit_updated()
 end
 
 function tag:draw_selected()
@@ -29,39 +39,24 @@ function tag:draw_urgent()
 end
 
 function tag:fit(width, height)
-   local size = math.min(width, height)
-   return 100, 100
+    if self.style.width then
+        return math.min(width, self.style.width), height
+    else
+        return width, height
+    end
 end
 
-function tag:draw(widget, wibox, cr, width, height)
-    naughty.notify({ preset = naughty.config.presets.critical, title = "debug", text = width })
-    cr:set_source(gears.color.parse_color("#FFFFFF"))
-    cr:move_to(0, 0)
-    cr:line_to(width, height)
-    cr:move_to(width, 0)
-    cr:line_to(0, height)
-    cr:set_line_width(3)
-    cr:stroke()
---    local ctx = PangoCairo.font_map_get_default():create_context()
---    local layout = Pango.Layout.new(ctx)
---    layout:set_ellipsize("END")
---    layout:set_wrap("WORD")
---    layout:set_alignment("CENTER")
---    layout:set_font_description(beautiful.get_font())
---    layout.text = self.style.text
---    layout.attributes = nil
---    naughty.notify({ preset = naughty.config.presets.critical, title = "debug", text = self.style.text })
---    cr:update_layout(layout)
---    layout.width = Pango.units_from_double(width)
---    layout.height = Pango.units_from_double(height)
---    local ink, logical = layout:get_pixel_extents()
---    local offset = (height - logical.height) / 2
---    cr:move_to(0, offset)
---    cr:show_layout(layout)
+function tag:draw(wibox, cr, width, height)
+    cr:set_source(gears.color(self.style.bg_color))
+    utils.cairo.draw_left_arrow(cr, width, height)
+    cr:set_source(gears.color(self.style.fg_color))
+    utils.cairo.set_font(cr, self.style.font)
+    local x, y = utils.cairo.text_hcenter_coordinates(cr, self.state.text, width), (height*2.5)/4
+	cr:move_to(x, y)
+	cr:show_text(self.state.text)
 end
 
-function tag:new(style)
-
+local function new(state)
     local ret = wibox.widget.base.make_widget()
 
     for k, v in pairs(tag) do
@@ -74,13 +69,14 @@ function tag:new(style)
         ret:emit_signal("widget::updated")
     end
 
-    ret:set_style(style)
+    ret:set_style(tag.default_style)
+    ret:set_state(state)
 
     return ret
 end
 
 function tag.mt:__call(...)
-	return tag.new(...)
+	return new(...)
 end
 
 return setmetatable(tag, tag.mt)
