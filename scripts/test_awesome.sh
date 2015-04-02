@@ -50,10 +50,6 @@ function start()
         screens="$screens $screen"
     done
 
-    echo ${screens_count}
-    echo ${screens}
-    echo ${screen}
-
     ${xephyr} -ac -br -noreset +xinerama ${screens} :1 &
     sleep 1
     DISPLAY=:1.0 ${awesome} -c ${rc_lua} &> ${log_file}

@@ -1,11 +1,15 @@
 local awful = require("awful")
 local awful_common = require("awful.widget.common")
 local wibox = require("wibox")
-local lain = require("lain")
-local gears = require("gears")
+local utils = require("awesome_config.utils")
 local tag_widget = require("awesome_config.widget.tag")
 
-local taglist = { mt = {} }
+local taglist = {
+    mt = {},
+    default_style = {
+        margins = {5, 5, 5, 5}
+    }
+}
 
 -- Get tag state
 function taglist.get_tag_state(tag, index, screen_tags_count)
@@ -15,7 +19,7 @@ function taglist.get_tag_state(tag, index, screen_tags_count)
         urgent = false,
         occupies = false,
         selected = false,
-        text = tag.name,
+        text = string.upper(tag.name),
         is_first = index == 1,
         is_last = index == screen_tags_count
     }
@@ -34,11 +38,11 @@ function taglist.get_tag_state(tag, index, screen_tags_count)
 end
 
 -- Custom taglist based on awful.widget.taglist
-function taglist.new(screen, filter, buttons)
+function taglist.new(screen, filter, buttons, style)
 
-    local margin = wibox.layout.margin()
     local layout = wibox.layout.fixed.horizontal()
     local data = setmetatable({}, { __mode = 'k' })
+    local style = utils.table.merge(taglist.default_style, style)
 
     local tag_filter = function(screen, filter)
         local tags = {}
@@ -69,10 +73,6 @@ function taglist.new(screen, filter, buttons)
                 end
 
                 layout:add(twidget)
-
---                if state.separator and i < #tags then
---                    layout:add(state.separator)
---                end
             end
         end
     end
@@ -100,11 +100,8 @@ function taglist.new(screen, filter, buttons)
     awful.tag.attached_connect_signal(screen, "property::index", tag_updated)
 
     update(screen)
-    margin:set_widget(layout)
-    margin:set_top(1)
-    margin:set_bottom(1)
-    margin:set_left(3)
-    margin:set_right(3)
+
+    local margin = wibox.layout.margin(layout, table.unpack(style.margins))
 
     return margin
 end

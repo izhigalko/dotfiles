@@ -8,11 +8,16 @@ local utils = require("awesome_config.utils")
 local tag = {
     mt = {},
     default_style = {
-        width = 60,
-        font = { font = "Sans", size = 10, face = 0, slant = 0 },
-        color = "#FFFFFF",
-        background = "#332F2E",
-        text_x_gap = 10
+        width = 80,
+        font = { font = "Sans", size = 12, face = 0, slant = 0 },
+        color = "#e0e7ee",
+        background = "#354e6a",
+        selected = {
+            color = "#73c0c0"
+        },
+        urgent = {
+            color = "#73c0c0"
+        }
     }
 }
 
@@ -87,7 +92,7 @@ function tag:draw(wibox, cr, width, height)
     -- Set text
     cr:save()
 
-    cr:set_source(gears.color(self.style.color))
+    cr:set_source(gears.color(self.state.urgent and self.style.urgent.color or self.style.color))
     utils.cairo.set_font(cr, self.style.font)
 
     -- if is first tag we need to change x coordinate
@@ -105,8 +110,8 @@ function tag:draw(wibox, cr, width, height)
         cr:save()
 
         x, y = text_x, height - (height - text_y)/2
-        cr:set_source(gears.color(self.style.color))
-        cr.line_width = 1
+        cr:set_source(gears.color(self.style.selected.color))
+        cr.line_width = 2
         cr:move_to(x - 5, y)
         cr:line_to(x + t_ext.x_advance + 5, y)
         cr:stroke()

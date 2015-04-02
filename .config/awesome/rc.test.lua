@@ -12,7 +12,38 @@ local cfg = {
     modkey = "Mod4",
     terminal = "urxvt",
     keyboard_layouts = {{"us", "", "EN"}, {"ru,us", "", "RU"}},
-    home_dir = os.getenv("HOME")
+    home_dir = os.getenv("HOME"),
+}
+
+-- Panels settings
+cfg.panel = {
+    height = 34
+}
+
+-- Tags and taglist settings
+cfg.tag = {
+    taglist = {
+        buttons = awful.util.table.join(
+            awful.button({ }, 1, awful.tag.viewonly),
+            awful.button({ cfg.modkey }, 1, awful.client.movetotag)
+        ),
+    }
+}
+
+-- Client and tasklist settings
+cfg.client = {
+    tasklist = {
+        buttons = awful.util.table.join(
+            awful.button({ }, 1, function (c)
+                c.minimized = false
+                if not c:isvisible() then
+                  awful.tag.viewonly(c:tags()[1])
+                end
+                client.focus = c
+                c:raise()
+            end)
+        )
+    }
 }
 
 -- Tags settings
