@@ -32,7 +32,7 @@ function taglist.get_tag_state(tag, index, screen_tags_count)
     end
 
     state.selected = tag.selected
-    state.occupied = #tag_clients > 0 and not state.focused
+    state.occupied = #tag_clients > 0
 
     return state
 end

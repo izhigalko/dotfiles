@@ -17,7 +17,7 @@ local cfg = {
 
 -- Panels settings
 cfg.panel = {
-    height = 34
+    height = 40
 }
 
 -- Tags and taglist settings

@@ -1,6 +1,10 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local beautiful = require("beautiful")
+local lgi = require("lgi")
+local Pango = lgi.Pango
+local PangoCairo = lgi.PangoCairo
 
 local utils = require("awesome_config.utils")
 
@@ -8,8 +12,9 @@ local utils = require("awesome_config.utils")
 local tag = {
     mt = {},
     default_style = {
-        width = 80,
-        font = { font = "Sans", size = 12, face = 0, slant = 0 },
+        width = 90,
+        --font = { font = "Sans", size = 12, face = 0, slant = 0 },
+        font = "Sans 15",
         color = "#e0e7ee",
         background = "#354e6a",
         selected = {
@@ -38,70 +43,71 @@ function tag:fit(width, height)
     end
 end
 
+function tag:draw_text(cr, text, width, height)
+    cr:update_layout(self._text_layout)
+    self._text_layout:set_alignment("CENTER")
+    self._text_layout:set_wrap("WORD_CHAR")
+    self._text_layout:set_font_description(beautiful.get_font())
+    self._text_layout.text = text
+    self._text_layout.attributes = nil
+    self._text_layout.width = Pango.units_from_double(width)
+    self._text_layout.height = Pango.units_from_double(height)
+    local ink, logical = self._text_layout:get_pixel_extents()
+    local y = (height - logical.height) / 2
+    cr:move_to(0, y)
+    cr:show_layout(self._text_layout)
+    return logical
+end
+
 function tag:draw(wibox, cr, width, height)
     local t_ext, text_x, text_y, x, y, w, h
 
     -- Fill background
     cr:save()
+
     cr:set_source(gears.color(self.style.background))
-
-    -- Draw arrow background
-    cr:move_to(0, 0)
-
-    if self.state.is_first then
-        cr:line_to(height/2, height/2)
-    end
-
-    cr:line_to(0, height)
-
-    if self.state.is_last then
-        cr:line_to(width - height/2, height)
-        cr:line_to(width, height/2)
-        cr:line_to(width - height/2, 0)
-    else
-        cr:line_to(width, height)
-        cr:line_to(width, 0)
-    end
-
-    cr:line_to(0, 0)
-
+    cr:rectangle(0, 0, width, height)
     cr:fill()
+
     cr:restore()
 
-    -- Draw arrow borders
-    cr:save()
-    cr:set_source(gears.color(self.style.color))
-    cr.line_width = 0.5
-    cr:set_dash({ 0.1 }, 0.1, 0);
+    -- Draw left separator
 
-    cr:move_to(width - height/2, height)
-    cr:line_to(width, height/2)
-    cr:line_to(width - height/2, 0)
+    if not self.state.is_first then
 
-    cr:stroke()
+        cr:save()
 
-    if self.state.is_first then
-        cr:move_to(0, 0)
-        cr:line_to(height/2, height/2)
-        cr:line_to(0, height)
+        cr:set_source(gears.color(self.style.color))
+        cr.line_width = 0.5
+        cr:move_to(0, 3)
+        cr:line_to(0, height - 3)
+        cr:stroke()
+
+        cr:restore()
+
     end
 
-    cr:stroke()
-    cr:restore()
+    -- Draw right separator
+
+    if not self.state.is_last then
+
+        cr:save()
+
+        cr:set_source(gears.color(self.style.color))
+        cr.line_width = 0.5
+        cr:move_to(width, 3)
+        cr:line_to(width, height - 3)
+        cr:stroke()
+
+        cr:restore()
+
+    end
 
     -- Set text
     cr:save()
 
     cr:set_source(gears.color(self.state.urgent and self.style.urgent.color or self.style.color))
-    utils.cairo.set_font(cr, self.style.font)
-
-    -- if is first tag we need to change x coordinate
-    t_ext = cr:text_extents(self.state.text)
-    text_x, text_y = (width - height/2 - t_ext.width)/2, (height*2.5)/4
-    text_x = self.state.is_first and text_x + height/4 or text_x
-
-	cr:move_to(text_x, text_y)
-	cr:show_text(self.state.text)
+    local logical = self:draw_text(cr, self.state.text, width, height)
 
     cr:restore()
 
@@ -109,15 +115,30 @@ function tag:draw(wibox, cr, width, height)
     if self.state.selected then
         cr:save()
 
-        x, y = text_x, height - (height - text_y)/2
         cr:set_source(gears.color(self.style.selected.color))
-        cr.line_width = 2
-        cr:move_to(x - 5, y)
-        cr:line_to(x + t_ext.x_advance + 5, y)
+        cr.line_width = 1
+        cr:move_to(logical.x - logical.x/2, logical.height + 5)
+        cr:line_to(logical.x + logical.x/2 + logical.width, logical.height + 5)
         cr:stroke()
 
         cr:restore()
+
     end
+
+    -- Draw occupied mark
+    cr:save()
+
+    cr:set_source(gears.color(self.style.color))
+    cr:rectangle(5, 5, 5, 5)
+    if self.state.occupied then
+        cr:fill()
+    else
+        cr.line_width = 0.5
+        cr:stroke()
+    end
+
+    cr:restore()
+
 end
 
 local function new(state)
@@ -135,6 +156,8 @@ local function new(state)
 
     ret:set_style(tag.default_style)
     ret:set_state(state)
+    local ctx = PangoCairo.font_map_get_default():create_context()
+    ret._text_layout = Pango.Layout.new(ctx)
 
     return ret
 end
