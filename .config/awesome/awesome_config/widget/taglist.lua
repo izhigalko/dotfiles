@@ -1,6 +1,8 @@
 local awful = require("awful")
 local awful_common = require("awful.widget.common")
 local wibox = require("wibox")
+local beautiful = require("beautiful")
+
 local utils = require("awesome_config.utils")
 local tag_widget = require("awesome_config.widget.tag")
 
@@ -42,7 +44,7 @@ function taglist.new(screen, filter, buttons, style)
 
     local layout = wibox.layout.fixed.horizontal()
     local data = setmetatable({}, { __mode = 'k' })
-    local style = utils.table.merge(taglist.default_style, style)
+    local style = beautiful.tag and utils.table.merge(taglist.default_style, beautiful.taglist) or taglist.default_style
 
     local tag_filter = function(screen, filter)
         local tags = {}

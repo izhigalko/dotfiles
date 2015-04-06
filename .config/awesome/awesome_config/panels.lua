@@ -19,7 +19,7 @@ function panels.init(cfg)
 
         promptbox[s] = awful.widget.prompt()
         layoutbox[s] = awful.widget.layoutbox(s)
-        taglist[s] = widget.taglist(s, awful.widget.taglist.filter.all, cfg.tag.taglist.buttons, {})
+        taglist[s] = widget.taglist(s, awful.widget.taglist.filter.all, cfg.tag.taglist.buttons)
         tasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, cfg.client.tasklist.buttons)
 
         _panels[s] = awful.wibox({ position = "bottom", screen = s, height=cfg.panel.height })

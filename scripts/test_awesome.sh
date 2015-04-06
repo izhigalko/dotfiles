@@ -54,6 +54,8 @@ function start()
     sleep 1
     DISPLAY=:1.0 ${awesome} -c ${rc_lua} &> ${log_file}
     sleep 1
+    DISPLAY=:1.0 unagi &
+    sleep 1
 }
 
 function stop()

@@ -25,18 +25,20 @@ theme.border_marked = "#91231c"
 theme.wallpaper = theme.config_dir .. "/wallpapers/1.jpg"
 
 theme.tag = {
-    default_style = {
-        width = 80,
-        font = { font = "Sans", size = 12, face = 0, slant = 0 },
-        color = "#f7f5f5",
-        background = "#332F2E",
-        selected = {
-            color = "#354e6a"
-        },
-        urgent = {
-            color = "#354e6a"
-        }
+    width = 90,
+    font_color = "#e0e7ee",
+    background_color = "#354e6a",
+    mark_color = "#73c0c0",
+    selected = {
+        color = "#73c0c0"
+    },
+    urgent = {
+        color = "#73c0c0"
     }
+}
+
+theme.taglist = {
+    margins = {5, 5, 5, 5}
 }
 
 return theme

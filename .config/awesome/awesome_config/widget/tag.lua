@@ -13,10 +13,9 @@ local tag = {
     mt = {},
     default_style = {
         width = 90,
-        --font = { font = "Sans", size = 12, face = 0, slant = 0 },
-        font = "Sans 15",
-        color = "#e0e7ee",
-        background = "#354e6a",
+        font_color = "#e0e7ee",
+        background_color = "#354e6a",
+        mark_color = "#73c0c0",
         selected = {
             color = "#73c0c0"
         },
@@ -33,6 +32,7 @@ end
 
 function tag:set_style(style)
     self.style = style
+    self._emit_updated()
 end
 
 function tag:fit(width, height)
@@ -65,48 +65,37 @@ function tag:draw(wibox, cr, width, height)
     -- Fill background
     cr:save()
 
-    cr:set_source(gears.color(self.style.background))
+    cr:set_source(gears.color(self.style.background_color))
     cr:rectangle(0, 0, width, height)
     cr:fill()
 
     cr:restore()
 
     -- Draw left separator
+    cr:save()
+    cr:set_source(gears.color(self.style.mark_color))
+    cr.line_width = 1
 
     if not self.state.is_first then
-
-        cr:save()
-
-        cr:set_source(gears.color(self.style.color))
-        cr.line_width = 0.5
         cr:move_to(0, 3)
         cr:line_to(0, height - 3)
         cr:stroke()
-
-        cr:restore()
-
     end
 
     -- Draw right separator
 
     if not self.state.is_last then
-
-        cr:save()
-
-        cr:set_source(gears.color(self.style.color))
-        cr.line_width = 0.5
         cr:move_to(width, 3)
         cr:line_to(width, height - 3)
         cr:stroke()
-
-        cr:restore()
-
     end
+
+    cr:restore()
 
     -- Set text
     cr:save()
 
-    cr:set_source(gears.color(self.state.urgent and self.style.urgent.color or self.style.color))
+    cr:set_source(gears.color(self.state.urgent and self.style.urgent.color or self.style.font_color))
     local logical = self:draw_text(cr, self.state.text, width, height)
 
     cr:restore()
@@ -122,18 +111,17 @@ function tag:draw(wibox, cr, width, height)
         cr:stroke()
 
         cr:restore()
-
     end
 
     -- Draw occupied mark
     cr:save()
 
-    cr:set_source(gears.color(self.style.color))
+    cr:set_source(gears.color(self.style.mark_color))
     cr:rectangle(5, 5, 5, 5)
     if self.state.occupied then
         cr:fill()
     else
-        cr.line_width = 0.5
+        cr.line_width = 1
         cr:stroke()
     end
 
@@ -143,6 +131,7 @@ end
 
 local function new(state)
     local ret = wibox.widget.base.make_widget()
+    local style = beautiful.tag and utils.table.merge(tag.default_style, beautiful.tag) or tag.default_style
 
     for k, v in pairs(tag) do
         if type(v) == "function" then
@@ -154,7 +143,7 @@ local function new(state)
         ret:emit_signal("widget::updated")
     end
 
-    ret:set_style(tag.default_style)
+    ret:set_style(style)
     ret:set_state(state)
     local ctx = PangoCairo.font_map_get_default():create_context()
     ret._text_layout = Pango.Layout.new(ctx)
