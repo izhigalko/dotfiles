@@ -3,14 +3,13 @@
 #
 
 # If not running interactively, don't do anything
-[[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
+# Variables
+export BASHRC_DIR="$HOME/.bashrc_"
+export WORKON_HOME=/opt/dev/virtualenvs
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-PS1='[\u@\h \w]\$ '
-
-case "$TERM" in
+case ${TERM} in
     rxvt-256color)
         TERM=rxvt-unicode
         ;;
@@ -19,7 +18,21 @@ case "$TERM" in
         ;;
 esac
 
-export WORKON_HOME=/opt/dev/virtualenvs
 
-[[ -f /usr/bin/virtualenvwrapper.sh ]] && source /usr/bin/virtualenvwrapper.sh
-[[ -f /usr/share/bash-completion/bash_completion ]] && . /usr/share/bash-completion/bash_completion
+[[ $- != *i* ]] && return
+
+# Load settings
+
+if [[ -d ${BASHRC_DIR} ]] ; then
+
+    for rc in ${BASHRC_DIR}/*.sh ; do
+
+        source ${rc}
+
+    done
+
+elif [[ -f ${BASHRC_DIR} ]] ; then
+
+    source ${BASHRC_DIR}
+
+fi

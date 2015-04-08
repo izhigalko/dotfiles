@@ -9,7 +9,7 @@ cd ${dotfiles_dir};
 git pull origin master;
 
 function sync() {
-	rsync --exclude ".git/" --exclude "install.sh" -avh --no-perms . ~;
+	rsync --exclude ".git/" --exclude "install.sh" --exclude ".idea/" -avh --no-perms . ~;
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
