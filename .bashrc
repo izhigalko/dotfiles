@@ -9,16 +9,6 @@ export BASHRC_DIR="$HOME/.bashrc_"
 export WORKON_HOME=/opt/dev/virtualenvs
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 
-case ${TERM} in
-    rxvt-256color)
-        TERM=rxvt-unicode
-        ;;
-    rxvt-unicode-256color)
-        TERM=rxvt-unicode
-        ;;
-esac
-
-
 [[ $- != *i* ]] && return
 
 # Load settings

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-grc=`which grc`
+grc=`which grc 2> /dev/null`
 
 if [[ -x ${grc} ]] ; then
 
