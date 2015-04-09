@@ -1,16 +1,14 @@
 ! fonts:
 
-!Xft.dpi:                90
 Xft.antialias:          true
 Xft.rgba:               rgb
 
-URxvt*font:             xft:Inconsolata \LGC-12:style=thin
+URxvt*font:             xft:Inconsolata \LGC:size=12:style=Thin, xft:PowerlineSymbols:size=12
 URxvt.allow_bold:       false
 URxvt*letterSpace:      -1
 
 ! settings:
 
-URxvt.depth:            90
 URxvt.scrollBar:        false
 URxvt.urgentOnBell:     false
 URxvt*borderless:       1

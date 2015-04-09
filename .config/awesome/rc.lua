@@ -13,7 +13,7 @@ local lain = require('lain')
 
 local config = {
     modkey = 'Mod4',
-    terminal = 'urxvt',
+    terminal = 'termite',
     keyboard_layouts = {{'us', '', 'EN'}, {'ru,us', '', 'RU'}},
     home_dir = os.getenv('HOME')
 }
@@ -29,7 +29,7 @@ tyrannical.tags = {
         force_screen = true,
         screen = 1,
         layout = lain.layout.uselessfair,
-        class = {'urxvt', 'URxvt'}
+        class = {'urxvt', 'URxvt', 'termite', 'Termite'}
     },
     {
         name = 'IM0',
@@ -319,15 +319,16 @@ awful.rules.rules = {
             keys = clientkeys,
             buttons = clientbuttons
         }
-    },
-    {
-        rule = {
-            class = 'URxvt'
-        },
-        properties = {
-            opacity = 0.7
-        }
     }
+ --,
+ --   {
+ --       rule = {
+ --           class = {'URxvt', 'Termite', 'urxvt', 'termite'}
+ --       },
+ --       properties = {
+ --           opacity = 1
+ --       }
+ --   }
 }
 -- }}}
 
