@@ -16,7 +16,6 @@ function get_svn_branch() {
 
     elif [[ -n ${svn_url} ]] ; then
 
-        svn_url=$(echo ${svn_url} | pcregrep -o "")
         echo -e "${prefix}${GREEN}${svn_url}${RESET} "
 
     fi
@@ -40,8 +39,7 @@ RESET="\e[0m"
 
 # Prompt
 
-PS1="\[${RED_BOLD}\]host\[${RESET}\]::\[${GREEN}\]\h\[${RESET}\] "
-PS1="${PS1}\[${RED_BOLD}\]pwd\[${RESET}\]::\[${GREEN}\]\w\[${RESET}\] "
+PS1="\[${RED}\]\h\[${RESET}\]:\[${RED}\]\w\[${RESET}\] "
 PS1="${PS1}\$(get_svn_branch)"
 PS1="${PS1}\$(get_git_branch)"
 PS1="${PS1}\$(get_virtual_env)"
