@@ -7,3 +7,7 @@
 [submodule ".config/awesome/cyclefocus"]
 	path = .config/awesome/cyclefocus
 	url = git://github.com/blueyed/awesome-cyclefocus
+[submodule ".vim/bundle/Vundle.vim"]
+	path = .vim/bundle/Vundle.vim
+	url = git://github.com/gmarik/Vundle.vim
+	branch = v0.10.2

@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 
-grc=`which grc 2> /dev/null`
-
-if [[ -x ${grc} ]] ; then
+if [[ `which grc 2> /dev/null` ]] ; then
 
     alias grc='grc --colour=auto'
     alias ping='grc ping'
@@ -26,3 +24,5 @@ alias rm='rm --recursive --interactive --verbose'
 alias du='du --human-readable --summarize'
 alias df='df --human-readable'
 alias free='free --human --total'
+
+[[ `which colordiff 2> /dev/null` ]] && alias diff='colordiff'
