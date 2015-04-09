@@ -10,6 +10,8 @@ git pull origin master;
 
 function sync() {
 	rsync --exclude ".git*" --exclude "install.sh" --exclude ".idea/" -avh --no-perms . ~;
+    sleep 1;
+    xrdb $HOME/.Xresources
 }
 
 if [ "$1" == "--force" -o "$1" == "-f" ]; then
