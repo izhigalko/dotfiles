@@ -9,6 +9,7 @@ export BASHRC_DIR="$HOME/.bashrc_"
 export WORKON_HOME=/opt/dev/virtualenvs
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
+export TERM=linux
 
 [[ $- != *i* ]] && return
 
