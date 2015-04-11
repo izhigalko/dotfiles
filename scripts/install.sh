@@ -2,23 +2,44 @@
 
 dotfiles_dir=$HOME/.dotfiles
 
+function usage()
+{
+    cat <<USAGE
+install.sh all|console
+
+    all     Install all configs
+    console Install only console configuration
+
+USAGE
+    exit 0
+}
+
 test -d ${dotfiles_dir} || { echo "Directory $dotfiles_dir not found"; exit 1; }
 
 cd ${dotfiles_dir};
 
 git pull origin master;
 
-function sync() {
+function sync_all() {
 	rsync --exclude ".git*" --exclude "install.sh" --exclude ".idea/" -avh --no-perms . ~;
-    sleep 1;
-    xrdb $HOME/.Xresources
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-	sync;
-else
-    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-            sync;
-    fi;
-fi;
+function sync_console() {
+	rsync "*" --include ".vimrc" --include ".bashrc" --include ".bashrc_/***" --include ".vim/***" --exclude "*" -avh --no-perms . ~;
+}
+
+case "$1" in
+
+    all)
+        sync_all;
+    ;;
+    console)
+        sync_console
+    ;;
+    *)
+        usage
+    ;;
+
+esac
+
+exit 0
