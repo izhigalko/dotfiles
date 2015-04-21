@@ -25,7 +25,7 @@ function sync_all() {
 }
 
 function sync_console() {
-	rsync "*" --include ".vimrc" --include ".bashrc" --include ".bashrc_/***" --include ".vim/***" --exclude "*" -avh --no-perms . ~;
+	rsync "*" --include ".vimrc" --include ".bashrc" --include ".bashrc_/***" --include ".vim/***" --include ".bin/***" --exclude "*" -avh --no-perms . ~;
 }
 
 case "$1" in

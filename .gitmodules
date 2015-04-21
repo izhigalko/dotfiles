@@ -11,3 +11,9 @@
 	path = .vim/bundle/Vundle.vim
 	url = git://github.com/gmarik/Vundle.vim
 	branch = v0.10.2
+[submodule ".bash/virtualenvwrapper"]
+	path = .bash/virtualenvwrapper
+	url = https://bitbucket.org/dhellmann/virtualenvwrapper.git
+[submodule ".bash/bash-completion"]
+	path = .bash/bash-completion
+	url = git://git.debian.org/git/bash-completion/bash-completion.git

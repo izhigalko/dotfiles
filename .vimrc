@@ -7,7 +7,6 @@ call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'jnurmine/Zenburn'
 Plugin 'bling/vim-airline'
 
@@ -37,7 +36,6 @@ map <F3> :NERDTreeToggle<CR>
 let NERDTreeIgnore=['\~$', '\.pyc$']
 
 " Theme
-set background=dark
 colorscheme zenburn
 
 " Airline

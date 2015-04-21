@@ -5,13 +5,15 @@
 # If not running interactively, don't do anything
 
 # Variables
-export BASHRC_DIR="$HOME/.bashrc_"
+
+[[ $- != *i* ]] && return
+
+export BASHRC_DIR="${HOME}/.bash"
 export WORKON_HOME=/opt/dev/virtualenvs
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
-export TERM=linux
-
-[[ $- != *i* ]] && return
+export TERM=xterm-256color
+export PATH="${PATH}:${HOME}/.bin"
 
 # Load settings
 
