@@ -52,7 +52,7 @@ function start()
 
     ${xephyr} -ac -br -noreset +xinerama ${screens} :1 &
     sleep 1
-    DISPLAY=:1.0 ${awesome} -c ${rc_lua} &> ${log_file}
+    DISPLAY=:1.0 ${awesome} -c ${rc_lua} &> ${log_file} &
     sleep 1
     DISPLAY=:1.0 unagi &
     sleep 1

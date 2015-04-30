@@ -141,22 +141,20 @@ text_clock = awful.widget.textclock()
 -- {{{ Keyboard layout switcher
 
 kbd_switcher = {}
-kbd_switcher.cmd = 'setxkbmap'
-kbd_switcher.layouts = config.keyboard_layouts
-kbd_switcher.current = 1
+kbd_switcher.layouts = {[0] = 'En', [1] = 'Ru'}
 kbd_switcher.widget = wibox.widget.textbox()
-kbd_switcher.widget:set_text(' ' .. kbd_switcher.layouts[kbd_switcher.current][3] .. ' ')
-kbd_switcher.switch = function ()
-
-    kbd_switcher.current = kbd_switcher.current % #(kbd_switcher.layouts) + 1
-    local t = kbd_switcher.layouts[kbd_switcher.current]
-    kbd_switcher.widget:set_text(' ' .. t[3] .. ' ')
-    os.execute(kbd_switcher.cmd .. ' ' .. t[1] .. ' ' .. t[2] )
-
+function kbd_switcher.set_text(layout)
+    local layout_text = kbd_switcher.layouts[layout]
+    kbd_switcher.widget:set_text(' ' .. layout_text .. ' ')   
 end
-kbd_switcher.widget:buttons(
-    awful.util.table.join(awful.button({ }, 1, function () kbd_switcher.switch() end))
-)
+kbd_switcher.set_text(0)
+
+dbus.request_name("session", "ru.gentoo.kbdd")
+dbus.add_match("session", "interface='ru.gentoo.kbdd',member='layoutChanged'")
+dbus.connect_signal("ru.gentoo.kbdd", function(...)
+    local data = {...}
+    kbd_switcher.set_text(data[2])
+end)
 
 -- }}}
 
@@ -246,9 +244,8 @@ globalkeys = awful.util.table.join(
     
     awful.key({ config.modkey }, 'r', function () promptbox[mouse.screen]:run() end),
     
-    awful.key({ config.modkey, 'Control' }, 'l', function () awful.util.spawn('xscreensaver-command --lock') end),
+    awful.key({ config.modkey, 'Control' }, 'l', function () awful.util.spawn('xscreensaver-command --lock') end)
     
-    awful.key({ 'Mod1' }, 'Shift_L', function () kbd_switcher.switch() end)
 )
 
 for i = 1, 9 do
