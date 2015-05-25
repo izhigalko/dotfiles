@@ -17,7 +17,9 @@ set enc=utf-8
 set ls=2
 set incsearch
 set hlsearch
+set cursorline
 set nu
+set nowrap
 syntax on
 
 " No swap and backup files
