@@ -6,23 +6,12 @@ local lgi = require("lgi")
 local Pango = lgi.Pango
 local PangoCairo = lgi.PangoCairo
 
+local defaults = require("awesome_config.defaults")
 local utils = require("awesome_config.utils")
 
 
 local tag = {
-    mt = {},
-    default_style = {
-        width = 90,
-        font_color = "#e0e7ee",
-        background_color = "#354e6a",
-        mark_color = "#73c0c0",
-        selected = {
-            color = "#73c0c0"
-        },
-        urgent = {
-            color = "#73c0c0"
-        }
-    }
+    mt = {}
 }
 
 function tag:set_state(state)
@@ -65,7 +54,7 @@ function tag:draw(wibox, cr, width, height)
     -- Fill background
     cr:save()
 
-    cr:set_source(gears.color(self.style.background_color))
+    cr:set_source(gears.color(self.style.background))
     cr:rectangle(0, 0, width, height)
     cr:fill()
 
@@ -95,7 +84,7 @@ function tag:draw(wibox, cr, width, height)
     -- Set text
     cr:save()
 
-    cr:set_source(gears.color(self.state.urgent and self.style.urgent.color or self.style.font_color))
+    cr:set_source(gears.color(self.state.urgent and self.style.mark_color or self.style.foreground))
     local logical = self:draw_text(cr, self.state.text, width, height)
 
     cr:restore()
@@ -104,7 +93,7 @@ function tag:draw(wibox, cr, width, height)
     if self.state.selected then
         cr:save()
 
-        cr:set_source(gears.color(self.style.selected.color))
+        cr:set_source(gears.color(self.style.mark_color))
         cr.line_width = 1
         cr:move_to(logical.x - logical.x/2, logical.height + 5)
         cr:line_to(logical.x + logical.x/2 + logical.width, logical.height + 5)
@@ -131,7 +120,7 @@ end
 
 local function new(state)
     local ret = wibox.widget.base.make_widget()
-    local style = beautiful.tag and utils.table.merge(tag.default_style, beautiful.tag) or tag.default_style
+    local style = beautiful.tag and utils.table.merge(defaults.tag.style, beautiful.tag) or defaults.tag.style
 
     for k, v in pairs(tag) do
         if type(v) == "function" then

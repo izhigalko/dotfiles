@@ -1,6 +1,8 @@
-unagi &
-/usr/bin/xscreensaver -no-splash &
-[[ -f $HOME/.Xresources ]] && xrdb $HOME/.Xresources
+# Keyboard layouts
 setxkbmap -layout 'us,ru' -option 'grp:alt_shift_toggle, grp_led:scroll'
+# Applications
+[[ `which xscreensaver 2> /dev/null` ]] && /usr/bin/xscreensaver -no-splash &
 [[ `which kbdd 2> /dev/null` ]] && kbdd
-exec awesome
+# Apply configuration
+[[ -f $HOME/.Xresources ]] && xrdb $HOME/.Xresources
+exec openbox-session 

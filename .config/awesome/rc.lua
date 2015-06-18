@@ -96,13 +96,13 @@ tyrannical.tags = {
         init = false,
         fallback = true,
         force_screen = true,
-        screen = screen.count() > 1 and 2 or 1
+        screen = screen.count() > 1 and {1, 2} or 1
     }
 }
 
 tyrannical.settings.block_children_focus_stealing = true --Block popups ()
 tyrannical.settings.group_children = true --Force popups/dialogs to have the same tags as the parent client
-tyrannical.properties.size_hints_honor = { xterm = false, URxvt = false, aterm = false, sauer_client = false, mythfrontend  = false}
+tyrannical.properties.size_hints_honor = { xterm = false, URxvt = false, aterm = false, sauer_client = false, mythfrontend  = false, Skype = false}
 
 -- /Tags settings
 
