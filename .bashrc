@@ -38,7 +38,7 @@ if ! pgrep -u $USER ssh-agent > /dev/null; then
 fi
 
 if [[ "$SSH_AGENT_PID" == "" ]]; then
-    eval $(<~/.ssh-agent-thing)
+    eval $(<~/.ssh-agent-thing) > /dev/null
 fi
 
 ssh-add -l > /dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
