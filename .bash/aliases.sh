@@ -21,7 +21,7 @@ alias grep='grep --color=auto'
 alias cp='cp --interactive --verbose --recursive --preserve=all'
 alias mv='mv --interactive --verbose'
 alias rm='rm --recursive --interactive --verbose'
-alias du='du --human-readable --summarize'
+alias du='du --human-readable'
 alias df='df --human-readable'
 alias free='free --human --total'
 

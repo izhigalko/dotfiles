@@ -332,7 +332,17 @@
     </keybind>
     <keybind key="W-r">
       <action name="Execute">
-        <command>dmenu_run</command>
+        <command>rofi -show run</command>
+      </action>
+    </keybind>
+    <keybind key="W-s">
+      <action name="Execute">
+        <command>rofi -show ssh</command>
+      </action>
+    </keybind>
+    <keybind key="W-w">
+      <action name="Execute">
+        <command>rofi -show window</command>
       </action>
     </keybind>
   </keyboard>
