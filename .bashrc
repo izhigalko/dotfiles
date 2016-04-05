@@ -11,12 +11,15 @@
 export BASHRC_DIR="${HOME}/.bash"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 export EDITOR=vim
-export TERM=xterm-256color
 export PATH="${PATH}:${HOME}/.bin"
 
+if [[ -z $TMUX ]]; then
+    export TERM=xterm-256color
+else
+    export TERM=screen-256color
+fi
+
 # Load settings
-
-
 for rc in ${BASHRC_DIR}/*.sh ; do
     source ${rc};
 done
