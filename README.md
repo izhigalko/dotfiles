@@ -3,7 +3,7 @@
 - Openbox
 - Lemonbar
 - trayer
-- termite
+- rxvt-unicode
 - rofi
 - feh
 - compton

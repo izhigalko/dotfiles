@@ -5,7 +5,7 @@
   <separator label="Applications" />
   <item label="Terminal emulator">
     <action name="Execute">
-      <command>termite</command>
+      <command>urxvt</command>
       <startupnotify>
         <enabled>yes</enabled>
       </startupnotify>
