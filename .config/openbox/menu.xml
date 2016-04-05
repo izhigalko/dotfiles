@@ -43,6 +43,22 @@
       </startupnotify>
     </action>
   </item>
+  <item label="Reconfigure openbox">
+    <action name="Execute">
+      <command>openbox --reconfigure</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
+  <item label="Restart openbox">
+    <action name="Execute">
+      <command>openbox --restart</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+      </startupnotify>
+    </action>
+  </item>
   <item label="Log Out">
     <action name="Exit">
       <prompt>yes</prompt>
