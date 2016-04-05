@@ -2,5 +2,4 @@ xscreensaver-command -exit &
 xscreensaver -no-splash &
 compton -b
 feh --randomize --bg-fill ~/.config/backgrounds/*
-echo -n "%{Sf}%{r}$(date "+%Y-%m-%d %H:%M")%{r}%{S}" | lemonbar -B#1a1a1a -g x20 -p &
-trayer --edge top --align left --height 20 --widthtype request --padding 2 --transparent true --alpha 0 --tint 1a1a1a &
+${HOME}/.bin/bar/bar-time.sh | lemonbar -B#1a1a1a -g x20 -p &
