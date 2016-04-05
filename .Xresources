@@ -3,7 +3,7 @@
 Xft.antialias:          true
 Xft.rgba:               rgb
 
-URxvt*font:             xft:Inconsolata \LGC:size=12:style=Thin, xft:PowerlineSymbols:size=12
+URxvt*font:             xft:Inconsolata\ LGC\ for\ Powerline:size=12:style=Thin
 URxvt.allow_bold:       false
 URxvt*letterSpace:      -1
 
