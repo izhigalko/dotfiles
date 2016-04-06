@@ -1,17 +1,21 @@
 ! fonts:
 
 Xft.antialias:          true
+Xft.autohint:           false
+Xft.dpi:                96
+Xft.hinting:            true
+Xft.hintstyle:          hintfull
+Xft.lcdfilter:          lcddefault
 Xft.rgba:               rgb
-
-URxvt*font:             xft:Inconsolata\ LGC\ for\ Powerline:size=12:style=Thin
+URxvt*font:             xft:Anonymous\ Pro\ for\ Powerline:size=12
+URxvt*boldFont:         xft:Anonymous\ Pro\ for\ Powerline:bold:size=12
 URxvt.allow_bold:       false
-URxvt*letterSpace:      -1
 
 ! settings:
 
 URxvt.scrollBar:        false
 URxvt.urgentOnBell:     false
-URxvt*borderless:       1
+URxvt*borderless:       true
 URxvt.internalBorder:   3
 URxvt.lineSpace:        0
 URxvt.iso14755:         false

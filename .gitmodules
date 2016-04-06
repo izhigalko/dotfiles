@@ -1,3 +1,6 @@
 [submodule ".local/share/fonts/inconsolata-lgc-for-powerline"]
 	path = .local/share/fonts/inconsolata-lgc-for-powerline
 	url = https://github.com/Gonzih/inconsolata-lgc-for-powerline.git
+[submodule ".local/share/fonts/powerline-fonts"]
+	path = .local/share/fonts/powerline-fonts
+	url = https://github.com/powerline/fonts.git
