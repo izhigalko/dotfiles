@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 function get_git_branch() {
     local prefix="${RED_BOLD}git${RESET}::"
-    local branch=$(git name-rev HEAD 2> /dev/null | pcregrep -o "(?<=HEAD )(.*)")
+    local branch=$(git name-rev HEAD 2> /dev/null | grep -oP "(?<=HEAD )(.*)")
     [[ -n ${branch} ]] && echo -e "${prefix}${GREEN}${branch}${RESET} "
 }
 
 function get_svn_branch() {
     local prefix="${RED_BOLD}svn${RESET}::"
-    local svn_url=$(svn info 2> /dev/null | pcregrep -o "(?<=Relative URL: \^)(.*)")
-    local branch=$(echo ${svn_url} | pcregrep -o "(?<=\/branches\/)([^\/]+)|(?<=\/tags\/)([^\/]+)|(?<=\/)(trunk)")
+    local svn_url=$(svn info 2> /dev/null | grep -oP "(?<=Relative URL: \^)(.*)")
+    local branch=$(echo ${svn_url} | grep -oP "(?<=\/branches\/)([^\/]+)|(?<=\/tags\/)([^\/]+)|(?<=\/)(trunk)")
 
     if [[ -n ${branch}  ]] ; then
 
