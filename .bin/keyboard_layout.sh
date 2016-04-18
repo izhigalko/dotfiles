@@ -30,4 +30,4 @@ new_layouts=( "${next_layout}" );
 new_layouts+=( ${layouts[@]/${next_layout}} );
 new_layouts=$(IFS=, ; echo "${new_layouts[*]}");
 
-setxkbmap ${new_layouts};
+setxkbmap -layout ${new_layouts};
