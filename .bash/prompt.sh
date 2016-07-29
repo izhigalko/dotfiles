@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 function get_git_branch() {
     local prefix="${RED_BOLD}git${RESET}::"
-    local branch=$(git name-rev HEAD 2> /dev/null | grep -oP "(?<=HEAD )(.*)")
-    [[ -n ${branch} ]] && echo -e "${prefix}${GREEN}${branch}${RESET} "
+    local branch=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+    [[ -n ${branch} ]] && echo -e "${prefix}${GREEN}${branch/#HEAD/detached}${RESET} "
 }
 
 function get_svn_branch() {
