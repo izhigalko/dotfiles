@@ -312,14 +312,14 @@
       </action>
     </keybind>
     <!-- Keybindings for change keyboard layout -->
-    <keybind key="A-Shift_L">
-      <action name="Execute">
-        <startupnotify>
-          <enabled>false</enabled>
-        </startupnotify>
-        <command>~/.bin/keyboard_layout.sh</command>
-      </action>
-    </keybind>
+    <!--<keybind key="A-Shift_L">-->
+      <!--<action name="Execute">-->
+        <!--<startupnotify>-->
+          <!--<enabled>false</enabled>-->
+        <!--</startupnotify>-->
+        <!--<command>~/.bin/keyboard_layout.sh</command>-->
+      <!--</action>-->
+    <!--</keybind>-->
     <!-- Keybindings for running applications -->
     <keybind key="W-C-l">
       <action name="Execute">
