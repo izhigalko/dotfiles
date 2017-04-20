@@ -44,7 +44,7 @@ ssh-add -l > /dev/null || alias ssh='ssh-add -l >/dev/null || ssh-add && unalias
 # Rename tmux window on ssh
 function ssh {
     if [[ ! -z ${TMUX} ]]; then
-        tmux rename-window "$(echo $* | rev | cut -d ' ' -f1 | rev | cut -d . -f1)"
+        tmux rename-window "$(echo $* | rev | cut -d ' ' -f1 | rev)"
         command ssh "$@"
         tmux set-window-option automatic-rename "on" 1>/dev/null
     else
