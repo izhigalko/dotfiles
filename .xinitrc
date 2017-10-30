@@ -1,2 +1,2 @@
 xrdb $HOME/.Xresources
-exec openbox-session 
+[[ `which openbox-session 2> /dev/null` ]] && exec openbox-session 
